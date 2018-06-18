@@ -1,0 +1,25 @@
+{
+  "name": "puppeteer-automated-testing",
+  "version": "1.0.0",
+  "description": "A testing project for showing automatic testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beiyehou/puppeteer-automated-testing.git"
+  },
+  "keywords": [
+    "puppeteer"
+  ],
+  "author": "luohuan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beiyehou/puppeteer-automated-testing/issues"
+  },
+  "homepage": "https://github.com/beiyehou/puppeteer-automated-testing#readme",
+  "dependencies": {
+    "puppeteer": "^1.5.0"
+  }
+}
