@@ -5,6 +5,7 @@
 
 #### 使用
  + 安装 Puppeteer
+
  npm i puppeteer 
 
 >如果安装过程中下载 chromium 失败，那么可以在安装的时候跳过 chromium 下
@@ -12,9 +13,11 @@
 
 
 + 准备node执行环境
+
 使用 Node v7.6.0 以上版本
 
 + 准备一个百度登陆账户将账户
+
 将账号密码放置到 config/baidu.json 文件中
 <code>
 {
@@ -22,3 +25,11 @@
     "password": "xxxxxxx"
 }
 </code> 
+
++ 指定可执行浏览器路径
+
+如果安装puppeteer时下载 chromium 成功未手动下载那么不需要配置。如果是手动下载的，将执行路径写到 config/chromium.json 文件中。 
+
+<code>
+{"executablePath": "path/to/chromium"}
+</code>
