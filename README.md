@@ -33,3 +33,7 @@
 <code>
 {"executablePath": "path/to/chromium"}
 </code>
+
++ 运行
+
+<code>node autologin.js</code>
