@@ -1,5 +1,6 @@
 node_modules/*
 chrome-mac/*
-config/*
+config/baidu.json
+config/chromium.json
 screenshots/*
 

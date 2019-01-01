@@ -17,11 +17,11 @@ if (chromiumConfig.executablePath) {
 }
 
 /** Testing the screenshots folder and create it if not existing. **/
-tools.testandCreateFolder(path.resolve(__dirname, "./screenshots"));
+tools.testandCreateFolder(path.resolve(domSites.screenshot, "./screenshots"));
 
 /** Creating domsites' screenshot folders. **/
-domSites.forEach((site) => {
-    site.screenPath = path.resolve(__dirname, "./screenshots", site.name);
+domSites.sites.forEach((site) => {
+    site.screenPath = path.resolve(domSites.screenshot, "./screenshots");
     tools.testandCreateFolder(site.screenPath);
 });
 
@@ -29,8 +29,8 @@ puppeteer.launch(launchOptions).then(async browser => {
     const page = await browser.newPage();
     await page.emulate(iPhone6);
 
-    for(let i = 0; i < domSites.length; i++) {
-        let site = domSites[i];
+    for(let i = 0; i < domSites.sites.length; i++) {
+        let site = domSites.sites[i];
         await page.goto(site.url, {
             timeout: 30*1000,
             waitUntil: 'load'
@@ -49,7 +49,7 @@ puppeteer.launch(launchOptions).then(async browser => {
         if ($targetDom) {
             console.log("截取" + site.name + '主页');
             await $targetDom.screenshot({
-                path: path.resolve(site.screenPath, [today.getFullYear(), '-', today.getMonth() + 1 , '-' , today.getDate(), '.png'].join("")),
+                path: path.resolve(site.screenPath, [today.getFullYear(), '-', today.getMonth() + 1 , '-' , today.getDate(), '-', site.name, '.png'].join("")),
                 type: 'png'
             });
         }
