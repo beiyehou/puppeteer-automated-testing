@@ -4,22 +4,26 @@
         {
             "name": "云链金融",
             "url": "https://www.yljr.com/zqyl-web/",
-            "domSelector": ".fixData"
+            "domSelector": ".fixData",
+            "childrenSelector": "dd"
         },
         {
             "name": "铁建银信",
             "url": "https://yx.crcc.cn/scm-web/",
-            "domSelector": ".ind-data"
+            "domSelector": ".ind-data",
+            "childrenSelector": "li"
         },
         {
             "name": "简单汇",
             "url": "https://www.jdh.com.cn/app/visitor/index/#/home",
-            "domSelector": ".data-statistics    "
+            "domSelector": ".data-statistics",
+            "childrenSelector": ".data-wrap"
         },
         {
             "name": "道口贷",
             "url": "https://www.daokoudai.com/site/statistic",
-            "domSelector": ".main .container:first-of-type + .container"
+            "domSelector": ".main .container:first-of-type + .container",
+            "childrenSelector": ".dataShow"
         }
     ]
 }
