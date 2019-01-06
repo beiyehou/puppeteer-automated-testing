@@ -25,12 +25,18 @@ domSites.sites.forEach((site) => {
     tools.testandCreateFolder(site.screenPath);
 });
 
+/** flush current text file. */
+let today = new Date();
+let dataFile = path.resolve(domSites.sites[0].screenPath, [today.getFullYear(), '-', today.getMonth() + 1 , '-' , today.getDate(), '.text'].join(""));
+fs.writeFileSync(dataFile, [today.toLocaleString(), "数据记录", '\n\n'].join(" "), {flag: 'w'});
+
 puppeteer.launch(launchOptions).then(async browser => {
     const page = await browser.newPage();
     await page.emulate(iPhone6);
 
     for(let i = 0; i < domSites.sites.length; i++) {
         let site = domSites.sites[i];
+
         await page.goto(site.url, {
             timeout: 30*1000,
             waitUntil: 'load'
@@ -40,7 +46,7 @@ puppeteer.launch(launchOptions).then(async browser => {
         console.log("打开" + site.name + '主页');
         await page.waitForSelector(site.domSelector);
         let $targetDom = await page.$(site.domSelector);
-        let today = new Date();
+
         //detecting notice popup
         let $notice = await page.$('.notice_header button');
         if ($notice) {
@@ -48,6 +54,7 @@ puppeteer.launch(launchOptions).then(async browser => {
                 console.log('广告框未显示');
             });
         }
+        
         if ($targetDom) {
             console.log("记录" + site.name + "数据");
             let children = await $targetDom.$$eval(site.childrenSelector, (nodes) => {
@@ -59,7 +66,7 @@ puppeteer.launch(launchOptions).then(async browser => {
             children = children.filter((node) => {
                 return !!node.trim();
             }).map((node) => {
-                return node.replace(/(\\n+)/, '\n').split('\n').filter((splitNode) => {
+                return node.replace(/(\n+)/, '\n').replace(/•\s+/g, "").split('\n').filter((splitNode) => {
                     return !!splitNode.trim();
                 });
             });
@@ -68,17 +75,12 @@ puppeteer.launch(launchOptions).then(async browser => {
             children.forEach((dataGroup) => {
                 let half = dataGroup.length/2;
                 for(let i = 0; i < half; i++) {
-                    dataContent = dataContent + [dataGroup[i], ': ', dataGroup[ i + half]].join("") + '\n';
+                    dataContent = dataContent + ((site.reverse) ? [dataGroup[ i + half], ': ', dataGroup[i]].join("") : [dataGroup[i], ': ', dataGroup[ i + half]].join("")) + '\n';
+                    dataContent = dataContent.replace(/,/g, "");
                 } 
             });
             dataContent = dataContent + '\n';
-            let dataFile = path.resolve(site.screenPath, [today.getFullYear(), '-', today.getMonth() + 1 , '-' , today.getDate(), '.text'].join(""));
             fs.writeFileSync(dataFile, dataContent, {flag: 'a+'});
-            console.log("截取" + site.name + '主页');
-            // await $targetDom.screenshot({
-            //     path: path.resolve(site.screenPath, [today.getFullYear(), '-', today.getMonth() + 1 , '-' , today.getDate(), '-', site.name, '.png'].join("")),
-            //     type: 'png'
-            // });
         }
     }
     await browser.close();
